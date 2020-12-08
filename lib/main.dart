@@ -1,3 +1,4 @@
+import 'package:fast_food/screens/WeeklyOverview.dart';
 import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:fast_food/screens/weekly_meal_plan_overview.dart';
 import 'package:fast_food/screens/testing_grounds.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/recipe_detail': (context) => recipe_detail(),
         '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
         '/testing_grounds': (context) => testing_grounds(),
+        '/WeeklyOverview': (context) => WeeklyOverview(),
       },
     );
   }
