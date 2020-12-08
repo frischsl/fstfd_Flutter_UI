@@ -4,6 +4,7 @@ import 'package:fast_food/components/recipe_card.dart';
 import 'package:expand_widget/expand_widget.dart';
 //import 'package:expansion_card/expansion_card.dart';
 import 'package:fast_food/components/expand_block.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class weekly_meal_plan_overview extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class weekly_meal_plan_overview extends StatefulWidget {
 
 class _weekly_meal_plan_overviewState extends State<weekly_meal_plan_overview> {
   IconData expansionIconSetter = Icons.expand_more;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +57,6 @@ class _weekly_meal_plan_overviewState extends State<weekly_meal_plan_overview> {
                       height: 200.0,
                       width: double.infinity,
                       child: ListView.builder(
-//              shrinkWrap: true,
-//              physics: ClampingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemCount: 15,
                         itemBuilder: (BuildContext context, int index) =>

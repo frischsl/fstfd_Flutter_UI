@@ -1,5 +1,6 @@
 import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:fast_food/screens/weekly_meal_plan_overview.dart';
+import 'package:fast_food/screens/testing_grounds.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Components/gBottomNavBar.dart';
@@ -21,10 +22,11 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 //      home: Example(),
-      initialRoute: '/recipe_detail',
+      initialRoute: '/testing_grounds',
       routes: {
         '/recipe_detail': (context) => recipe_detail(),
-        '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview()
+        '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
+        '/testing_grounds': (context) => testing_grounds(),
       },
     );
   }
