@@ -35,7 +35,7 @@ class _testing_groundsState extends State<testing_grounds> {
 
   Future<RecipeList> fetchComplexRecipeList() async {
     final response = await http.get(
-        'https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&query=pasta&maxFat=25&number=2');
+        'https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&query=pasta&maxFat=25&number=4');
 
     if (response.statusCode == 200) {
       print("Before the recipeList");
@@ -47,93 +47,119 @@ class _testing_groundsState extends State<testing_grounds> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SafeArea(
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: 215.0,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 15),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                pauseAutoPlayOnTouch: true,
-                aspectRatio: 2.0,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
-              items: cardList.map((card) {
-                return Builder(builder: (BuildContext context) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      width: MediaQuery.of(context).size.width * 0.66,
-                      child: Card(
-                        color: Colors.white,
-                        child: card,
-                      ),
+      appBar: AppBar(
+        leading: Icon(
+          Icons.close,
+          color: Colors.black,
+        ),
+        actions: [
+          Icon(Icons.add, color: Colors.black),
+        ],
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          "Eat pasta, feel good",
+          style: cardTextStyleTitle,
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // SafeArea(
+            //   child: CarouselSlider(
+            //     options: CarouselOptions(
+            //       height: 215.0,
+            //       autoPlay: true,
+            //       autoPlayInterval: Duration(seconds: 15),
+            //       autoPlayAnimationDuration: Duration(milliseconds: 800),
+            //       autoPlayCurve: Curves.fastOutSlowIn,
+            //       pauseAutoPlayOnTouch: true,
+            //       aspectRatio: 2.0,
+            //       onPageChanged: (index, reason) {
+            //         setState(() {
+            //           _currentIndex = index;
+            //         });
+            //       },
+            //     ),
+            //     items: cardList.map((card) {
+            //       return Builder(builder: (BuildContext context) {
+            //         return Padding(
+            //           padding: const EdgeInsets.only(top: 15.0),
+            //           child: Container(
+            //             height: MediaQuery.of(context).size.height * 0.25,
+            //             width: MediaQuery.of(context).size.width * 0.66,
+            //             child: Card(
+            //               color: Colors.white,
+            //               child: card,
+            //             ),
+            //           ),
+            //         );
+            //       });
+            //     }).toList(),
+            //   ),
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: map<Widget>(cardList, (index, url) {
+            //     return Container(
+            //       width: 10.0,
+            //       height: 10.0,
+            //       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+            //       decoration: BoxDecoration(
+            //         shape: BoxShape.circle,
+            //         color:
+            //             _currentIndex == index ? Colors.blueAccent : Colors.grey,
+            //       ),
+            //     );
+            //   }),
+            // ),
+            Text(
+              "Test",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+            ),
+            FutureBuilder<RecipeList>(
+              future: futureRecipe,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.37,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data.recipes.length,
+                      itemBuilder: (context, index) {
+                        final recipe = snapshot.data.recipes[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.44,
+                            decoration: BoxDecoration(
+                                // color: Colors.orangeAccent,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: recipeCard(
+                              recipe: recipe,
+                            ),
+                            // child: ListTile(
+                            //   title: Text(recipe.title),
+                            //   subtitle: Text(recipe.id.toString()),
+                            // ),
+                          ),
+                        );
+                      },
                     ),
                   );
-                });
-              }).toList(),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: map<Widget>(cardList, (index, url) {
-              return Container(
-                width: 10.0,
-                height: 10.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color:
-                      _currentIndex == index ? Colors.blueAccent : Colors.grey,
-                ),
-              );
-            }),
-          ),
-          FutureBuilder<RecipeList>(
-            future: futureRecipe,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SizedBox(
-                  height: 300.0,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data.recipes.length,
-                    itemBuilder: (context, index) {
-                      final recipe = snapshot.data.recipes[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.orangeAccent),
-                          child: recipeCard(
-                            recipe: recipe,
-                          ),
-                          // child: ListTile(
-                          //   title: Text(recipe.title),
-                          //   subtitle: Text(recipe.id.toString()),
-                          // ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
 
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ],
+                // By default, show a loading spinner.
+                return CircularProgressIndicator();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -150,8 +176,6 @@ class Item3 extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               color: Colors.black,
-              width: 100.0,
-              height: 15.0,
             ),
           ),
           Align(
@@ -185,27 +209,33 @@ class _recipeCardState extends State<recipeCard> {
   //     scale: 0.7);
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200.0,
-      height: 500.0,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Image.network(
-              widget.recipe.image,
-            ),
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image.network(
+            widget.recipe.image,
+            scale: 0.7,
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(widget.recipe.title),
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.recipe.title,
+                style: cardTextStyleTitle,
+              ),
+              Text(
+                widget.recipe.id.toString(),
+                style: cardTextStyleSub,
+              ),
+            ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(widget.recipe.id.toString()),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
