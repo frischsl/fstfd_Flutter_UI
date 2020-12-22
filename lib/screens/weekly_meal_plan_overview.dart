@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fast_food/components/gBottomNavBar.dart';
 import 'package:fast_food/components/recipe_card.dart';
-import 'package:expand_widget/expand_widget.dart';
 //import 'package:expansion_card/expansion_card.dart';
 import 'package:fast_food/components/expand_block.dart';
 import 'package:carousel_slider/carousel_slider.dart';

@@ -14,8 +14,7 @@ dependencies:
   google_nav_bar: ^3.0.0
   line_icons: ^0.2.0
   flutter_counter: ^1.0.3
-  expand_widget: ^1.0.0+1
-  expansion_card: ^0.1.0
+  expandable: ^4.1.4
   carousel_slider: ^2.3.1
   http: ^0.12.2
 

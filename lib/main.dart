@@ -1,3 +1,5 @@
+import 'package:fast_food/screens/MainPageScreen.dart';
+import 'package:fast_food/screens/NutrientSelectionScreen.dart';
 import 'package:fast_food/screens/WeeklyOverview.dart';
 import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:fast_food/screens/weekly_meal_plan_overview.dart';
@@ -23,12 +25,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 //      home: Example(),
-      initialRoute: '/testing_grounds',
+      initialRoute: '/MainPageScreen',
       routes: {
         '/recipe_detail': (context) => recipe_detail(),
         '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
         '/testing_grounds': (context) => testing_grounds(),
         '/WeeklyOverview': (context) => WeeklyOverview(),
+        '/NutrientSelectionScreen': (context) => NutrientSelectionScreen(),
+        '/MainPageScreen': (context) => MainPageScreen(),
       },
     );
   }
