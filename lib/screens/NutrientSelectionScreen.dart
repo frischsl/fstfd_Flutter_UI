@@ -1,10 +1,14 @@
+// import 'dart:html';
+
 import 'package:fast_food/screens/testingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-
 import '../constants.dart';
+import 'package:fast_food/components/groupedCheckboxes_edited.dart';
 
 var NutrientParams = {};
+const heightBetween = 18.0;
+const customElevation = 3.0;
 
 class NutrientSelectionScreen extends StatefulWidget {
   @override
@@ -13,141 +17,102 @@ class NutrientSelectionScreen extends StatefulWidget {
 }
 
 class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
-  List<NutrientBuilder> nutrientBuilderList = new List<NutrientBuilder>();
+  List<NutritionalCheckbox> IntolerancesCheckboxList =
+      new List<NutritionalCheckbox>();
 
-  List<NutrientBuilder> MacroNutrientBuilderList = new List<NutrientBuilder>();
-  List<NutrientBuilder> MineralsNutrientBuilderList =
-      new List<NutrientBuilder>();
-  List<NutrientBuilder> VitaminsNutrientBuilderList =
-      new List<NutrientBuilder>();
-  List<NutrientBuilder> MiscNutrientBuilderList = new List<NutrientBuilder>();
-
+  int tabIndex = 0;
   @override
   void initState() {
     super.initState();
-    MacroNutrientBuilderList = buildNutrientLists(MacroNutrientList);
-    MineralsNutrientBuilderList = buildNutrientLists(MineralsList);
-    VitaminsNutrientBuilderList = buildNutrientLists(VitaminsList);
-    MiscNutrientBuilderList = buildNutrientLists(MiscList);
+    IntolerancesCheckboxList = buildNutritionalCheckboxList(IntoleranceList);
   }
 
-  List<NutrientBuilder> buildNutrientLists(List nutrientList) {
-    List<NutrientBuilder> nbl = new List<NutrientBuilder>();
-    int count = 0;
-    nutrientList.forEach((n) {
-      nbl.add(NutrientBuilder(
-        nutrientName: n[0],
-        startingSliderValue: n[1],
-        unit: n[2],
-        min: n[3],
-        max: n[4],
-        idx: count,
-      ));
+  List<NutritionalCheckbox> buildNutritionalCheckboxList(List data) {
+    List<NutritionalCheckbox> nCb = new List<NutritionalCheckbox>();
 
-      count++;
+    data.forEach((element) {
+      nCb.add(NutritionalCheckbox(name: element));
     });
 
-    return nbl;
+    return nCb;
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: Icon(
-          Icons.close,
-          color: Colors.black,
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DataTransfer(
-                    params: NutrientParams,
-                  ),
-                ),
-              );
-            },
-            child: Icon(Icons.keyboard_arrow_right, color: Colors.black),
-          ),
-        ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          navBarTitle,
-          style: cardTextStyleTitle,
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ExpandableNotifier(
-                initialExpanded: true,
-                child: ExpandablePanel(
-                  header: Text(
-                    "Macro-Nutrients",
-                    style: nutrientSelectionTitleTextStyle,
-                  ),
-                  expanded: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: MacroNutrientBuilderList.length ?? 1,
-                    itemBuilder: (context, index) {
-                      return MacroNutrientBuilderList[index];
-                    },
-                  ),
-                ),
-              ),
-              ExpandablePanel(
-                header: Text(
-                  "Minerals",
-                  style: nutrientSelectionTitleTextStyle,
-                ),
-                expanded: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: MineralsNutrientBuilderList.length ?? 1,
-                  itemBuilder: (context, index) {
-                    return MineralsNutrientBuilderList[index];
-                  },
-                ),
-              ),
-              ExpandablePanel(
-                header: Text(
-                  "Vitamins",
-                  style: nutrientSelectionTitleTextStyle,
-                ),
-                expanded: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: VitaminsNutrientBuilderList.length ?? 1,
-                  itemBuilder: (context, index) {
-                    return VitaminsNutrientBuilderList[index];
-                  },
-                ),
-              ),
-              ExpandablePanel(
-                header: Text(
-                  "Miscellaneous",
-                  style: nutrientSelectionTitleTextStyle,
-                ),
-                expanded: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: MiscNutrientBuilderList.length ?? 1,
-                  itemBuilder: (context, index) {
-                    return MiscNutrientBuilderList[index];
-                  },
-                ),
-              ),
+        appBar: AppBar(
+          leading: Icon(
+            Icons.close,
+            color: Colors.black,
+          ),
+          bottom: TabBar(
+            indicatorColor: Colors.green,
+            onTap: (index) {
+              if (tabIndex != index) {
+                if (index == 0) {
+                  setState(() {});
+                } else {}
+              }
+              tabIndex = index;
+            },
+            tabs: [
+              Tab(
+                  icon: Icon(
+                Icons.add_circle_outline,
+                color: Colors.green,
+              )),
+              Tab(
+                  icon: Icon(
+                Icons.error,
+                color: Colors.green,
+              ))
             ],
           ),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                if (tabIndex == 0) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DataTransfer(
+                        params: NutrientParams,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DataTransfer(
+                        params: NutrientParams,
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Icon(Icons.keyboard_arrow_right, color: Colors.black),
+            ),
+          ],
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            navBarTitle,
+            style: cardTextStyleTitle,
+          ),
         ),
+        body: TabBarView(children: [
+          SafeArea(
+            child: NutrientSelectors(),
+          ),
+          SafeArea(
+            child: DietSelector(
+              intoleranceCheckboxList: IntolerancesCheckboxList,
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -155,11 +120,12 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
 
 class NutrientBuilder extends StatefulWidget {
   final String nutrientName;
-  final double startingSliderValue;
+  final RangeValues startingSliderValue;
   final String unit;
   final double min;
   final double max;
   final int idx;
+  final bool active;
 
   const NutrientBuilder(
       {Key key,
@@ -168,21 +134,22 @@ class NutrientBuilder extends StatefulWidget {
       @required this.unit,
       @required this.min,
       @required this.max,
-      @required this.idx})
+      @required this.idx,
+      this.active = false})
       : super(key: key);
   @override
   _NutrientBuilderState createState() => _NutrientBuilderState();
 }
 
 class _NutrientBuilderState extends State<NutrientBuilder> {
-  double curSliderValue;
   RangeValues curRangeValues;
-  bool isActive = false;
+  bool isActive;
   @override
   initState() {
     super.initState();
-    curSliderValue = widget.startingSliderValue;
-    curRangeValues = RangeValues(widget.min, widget.max);
+    print(widget.startingSliderValue);
+    curRangeValues = widget.startingSliderValue;
+    isActive = widget.active;
   }
 
   Widget build(BuildContext context) {
@@ -260,18 +227,284 @@ class _NutrientBuilderState extends State<NutrientBuilder> {
   }
 }
 
-// Text(
-// "Miscellaneous",
-// style: nutrientSelectionTitleTextStyle,
-// ),
-// ConstrainedBox(
-// constraints: BoxConstraints(minWidth: double.infinity),
-// child: ListView.builder(
-// physics: NeverScrollableScrollPhysics(),
-// shrinkWrap: true,
-// itemCount: MiscNutrientBuilderList.length ?? 1,
-// itemBuilder: (context, index) {
-// return MiscNutrientBuilderList[index];
-// },
-// ),
-// ),
+class NutrientSelectors extends StatefulWidget {
+  @override
+  _NutrientSelectorsState createState() => _NutrientSelectorsState();
+}
+
+class _NutrientSelectorsState extends State<NutrientSelectors> {
+  List<NutrientBuilder> MacroNutrientBuilderList = new List<NutrientBuilder>();
+  List<NutrientBuilder> MineralsNutrientBuilderList =
+      new List<NutrientBuilder>();
+  List<NutrientBuilder> VitaminsNutrientBuilderList =
+      new List<NutrientBuilder>();
+  List<NutrientBuilder> MiscNutrientBuilderList = new List<NutrientBuilder>();
+  @override
+  void initState() {
+    super.initState();
+    MacroNutrientBuilderList = buildNutrientLists(MacroNutrientList);
+    MineralsNutrientBuilderList = buildNutrientLists(MineralsList);
+    VitaminsNutrientBuilderList = buildNutrientLists(VitaminsList);
+    MiscNutrientBuilderList = buildNutrientLists(MiscList);
+  }
+
+  List<NutrientBuilder> buildNutrientLists(List nutrientList) {
+    List<NutrientBuilder> nbl = new List<NutrientBuilder>();
+    int count = 0;
+
+    nutrientList.forEach((n) {
+      RangeValues startVals = null;
+      if (NutrientParams != null && NutrientParams.containsKey("min${n[0]}")) {
+        print("In");
+        startVals = RangeValues(NutrientParams["min${n[0]}"].toDouble(),
+            NutrientParams["max${n[0]}"].toDouble());
+        print("Start Values: ${startVals}");
+      }
+      print("Start Values: ${startVals}");
+      nbl.add(NutrientBuilder(
+        nutrientName: n[0],
+        startingSliderValue: startVals ?? RangeValues(n[3], n[4]),
+        unit: n[2],
+        min: n[3],
+        max: n[4],
+        idx: count,
+        active: (startVals != null) ? true : false,
+      ));
+
+      count++;
+    });
+
+    return nbl;
+  }
+
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: heightBetween),
+          Card(
+            color: Colors.white,
+            elevation: customElevation,
+            child: ExpandableNotifier(
+              initialExpanded: true,
+              child: ExpandablePanel(
+                theme: ExpandableThemeData(iconColor: Colors.green),
+                header: Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 8.0, 76.0, 50.0),
+                  child: Text(
+                    "Macro-Nutrients",
+                    style: nutrientSelectionTitleTextStyle,
+                  ),
+                ),
+                expanded: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: MacroNutrientBuilderList.length ?? 1,
+                  itemBuilder: (context, index) {
+                    return MacroNutrientBuilderList[index];
+                  },
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: heightBetween),
+          Card(
+            color: Colors.white,
+            elevation: customElevation,
+            child: ExpandablePanel(
+              theme: ExpandableThemeData(iconColor: Colors.green),
+              header: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 76.0, 50.0),
+                child: Text(
+                  "Minerals",
+                  style: nutrientSelectionTitleTextStyle,
+                ),
+              ),
+              expanded: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: MineralsNutrientBuilderList.length ?? 1,
+                itemBuilder: (context, index) {
+                  return MineralsNutrientBuilderList[index];
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: heightBetween),
+          Card(
+            color: Colors.white,
+            elevation: customElevation,
+            child: ExpandablePanel(
+              theme: ExpandableThemeData(
+                iconColor: Colors.green,
+              ),
+              header: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 76.0, 50.0),
+                child: Text(
+                  "Vitamins",
+                  style: nutrientSelectionTitleTextStyle,
+                ),
+              ),
+              expanded: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: VitaminsNutrientBuilderList.length ?? 1,
+                itemBuilder: (context, index) {
+                  return VitaminsNutrientBuilderList[index];
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: heightBetween),
+          Card(
+            color: Colors.white,
+            elevation: customElevation,
+            child: ExpandablePanel(
+              theme: ExpandableThemeData(iconColor: Colors.green),
+              header: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 76.0, 50.0),
+                child: Text(
+                  "Miscellaneous",
+                  style: nutrientSelectionTitleTextStyle,
+                ),
+              ),
+              expanded: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: MiscNutrientBuilderList.length ?? 1,
+                itemBuilder: (context, index) {
+                  return MiscNutrientBuilderList[index];
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 75.0),
+        ],
+      ),
+    );
+  }
+}
+
+class DietSelector extends StatefulWidget {
+  final List<NutritionalCheckbox> intoleranceCheckboxList;
+
+  const DietSelector({Key key, @required this.intoleranceCheckboxList})
+      : super(key: key);
+  @override
+  _DietSelectorState createState() => _DietSelectorState();
+}
+
+class _DietSelectorState extends State<DietSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 18.0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 0.0),
+            child: Text(
+              "Diet",
+              style: nutrientSelectionTitleTextStyle,
+            ),
+          ),
+          CheckboxGroup_edit(
+              checked: [NutrientParams["Diet"]] ?? [],
+              labels: DietList,
+              labelStyle: cardTextStyleSub,
+              activeColor: Colors.orangeAccent,
+              singleSelection: true,
+              onSelected: (List selected) => setState(() {
+                    if (selected.length > 1) {
+                      selected.removeAt(0);
+                    }
+                    if (selected.isNotEmpty) {
+                      NutrientParams["Diet"] = selected[0].toString();
+                    } else {
+                      if (NutrientParams.containsKey("Diet")) {
+                        NutrientParams.remove("Diet");
+                      }
+                    }
+                  })),
+          SizedBox(height: 18.0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 0.0),
+            child: Text(
+              "Intolerances",
+              style: nutrientSelectionTitleTextStyle,
+            ),
+          ),
+          CheckboxGroup_edit(
+            checked: NutrientParams["Intolerances"] != null
+                ? NutrientParams["Intolerances"].toString().split(", ")
+                : [],
+            labels: IntoleranceList,
+            labelStyle: cardTextStyleSub,
+            activeColor: Colors.orangeAccent,
+            onSelected: (List selected) => setState(() {
+              print(NutrientParams["Intolerances"].toString().split(", "));
+              if (selected.isNotEmpty) {
+                if (selected.length > 1) {
+                  NutrientParams["Intolerances"] = selected.join(", ");
+                } else {
+                  NutrientParams["Intolerances"] = selected[0].toString();
+                }
+              } else {
+                if (NutrientParams.containsKey("Intolerances")) {
+                  NutrientParams.remove("Intolerances");
+                }
+              }
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NutritionalCheckbox extends StatefulWidget {
+  final String name;
+
+  const NutritionalCheckbox({Key key, this.name}) : super(key: key);
+  @override
+  _NutritionalCheckboxState createState() => _NutritionalCheckboxState();
+}
+
+class _NutritionalCheckboxState extends State<NutritionalCheckbox> {
+  bool isChecked = false;
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: isChecked,
+      activeColor: Colors.orangeAccent,
+      onChanged: (bool newValue) {
+        setState(() {
+          isChecked = newValue;
+        });
+
+        if (isChecked) {
+          if (DietList.contains(widget.name))
+            NutrientParams["Diet"] = widget.name;
+          else
+            NutrientParams[widget.name] = isChecked;
+        } else {
+          if (NutrientParams.containsKey(widget.name)) {
+            NutrientParams.remove(widget.name);
+          } else if (NutrientParams.containsKey("Diet")) {
+            NutrientParams.remove("Diet");
+          }
+        }
+      },
+      title: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(
+          widget.name,
+          style: cardTextStyleSub,
+        ),
+      ),
+    );
+  }
+}

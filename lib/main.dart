@@ -21,9 +21,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          primaryColor: Colors.green,
+          unselectedWidgetColor: Colors.green),
 //      home: Example(),
       initialRoute: '/MainPageScreen',
       routes: {

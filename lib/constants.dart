@@ -49,11 +49,11 @@ const mainPagePreviousBtnSubTextStyle = TextStyle(
 const mainPagePreviousBtnTitleTextStyle = TextStyle(
     color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Montserrat');
 
-const nutrientSelectionTitleTextStyle = TextStyle(
+var nutrientSelectionTitleTextStyle = TextStyle(
   fontFamily: 'Montserrat',
   fontWeight: FontWeight.bold,
-  fontSize: 20.0,
-  color: Colors.green,
+  fontSize: 22.0,
+  color: Colors.green[800],
 );
 
 // MacroNutrients
@@ -105,4 +105,34 @@ const MiscList = [
   ["Alcohol", 0.0, "g", 0.0, 100.0],
   ["Caffeine", 0.0, "mg", 0.0, 100.0],
   ["Cholesterol", 0.0, "mg", 0.0, 100.0]
+];
+
+// Diets
+const DietList = [
+  "Gluten Free",
+  "Ketogenic",
+  "Vegetarian",
+  "Lacto-Vegetarian",
+  "Ovo-Vegetarian",
+  "Vegan",
+  "Pescetarian",
+  "Paleo",
+  "Primal",
+  "Whole30",
+];
+
+// Intolerances
+const IntoleranceList = [
+  "Dairy",
+  "Egg",
+  "Gluten",
+  "Grain",
+  "Peanut",
+  "Seafood",
+  "Sesame",
+  "Shellfish",
+  "Soy",
+  "Sulfite",
+  "Tree Nut",
+  "Wheat",
 ];
