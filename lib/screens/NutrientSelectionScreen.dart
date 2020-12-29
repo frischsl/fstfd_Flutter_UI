@@ -42,9 +42,14 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: Icon(
-            Icons.close,
-            color: Colors.black,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.green,
+            ),
           ),
           bottom: TabBar(
             indicatorColor: Colors.green,
@@ -69,21 +74,6 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
               ))
             ],
           ),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WeeklyOverview(
-                      nutritionalParams: NutrientParams,
-                    ),
-                  ),
-                );
-              },
-              child: Icon(Icons.keyboard_arrow_right, color: Colors.black),
-            ),
-          ],
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
@@ -101,6 +91,20 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
             ),
           ),
         ]),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.green,
+          child: Icon(Icons.restaurant_menu),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WeeklyOverview(
+                  nutritionalParams: NutrientParams,
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

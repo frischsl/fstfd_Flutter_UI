@@ -1,8 +1,9 @@
+import 'package:fast_food/screens/RecipeDetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';
-import 'package:fast_food/Models/ComplexSearch.dart';
-import 'package:fast_food/screens/recipe_detail.dart';
+// import 'package:fast_food/Models/ComplexSearch.dart';
+import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
 
 class RecipeCard extends StatefulWidget {
   final Results recipe;
@@ -21,8 +22,8 @@ class _RecipeCardState extends State<RecipeCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => recipe_detail(
-              id: widget.recipe.id,
+            builder: (context) => RecipeDetails(
+              recipe: widget.recipe,
             ),
           ),
         );

@@ -18,7 +18,7 @@ class _RecipeInstructionsState extends State<RecipeInstructions> {
   @override
   void initState() {
     super.initState();
-    futureRecipeInstructions = fetchAnalyzedInstructions(324694);
+    futureRecipeInstructions = fetchAnalyzedInstructions(widget.id);
   }
 
   Future<AnalyzedInstructions> fetchAnalyzedInstructions(int id) async {
@@ -47,6 +47,7 @@ class _RecipeInstructionsState extends State<RecipeInstructions> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data.steps.length,
                     itemBuilder: (context, index) {
                       return Column(

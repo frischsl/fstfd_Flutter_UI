@@ -1,40 +1,62 @@
 import 'dart:convert';
 
-import 'package:fast_food/components/CreateNewMealPlanBtn.dart';
-import 'package:fast_food/components/PreviousMealPlanBtn.dart';
-import 'package:fast_food/screens/NutrientSelectionScreen.dart';
-import 'package:fast_food/screens/testingScreen.dart';
+import 'package:fast_food/components/RecipeCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fast_food/constants.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:fast_food/Models/AnalyzedInstructions.dart';
 import 'package:http/http.dart' as http;
+import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
+
+import '../constants.dart';
 
 class testing_grounds extends StatefulWidget {
-  final int id;
+  final nutritionalParams;
 
-  const testing_grounds({Key key, this.id}) : super(key: key);
+  const testing_grounds({Key key, this.nutritionalParams}) : super(key: key);
   @override
   _testing_groundsState createState() => _testing_groundsState();
 }
 
 class _testing_groundsState extends State<testing_grounds> {
-  Future<AnalyzedInstructions> futureRecipeInstructions;
+  Future<ComplexSearchWithFullParams> futureRecipe;
+  String queryParams = "";
+  List<int> recipeIds = [];
+  int _currentIndex = 1;
 
   @override
   void initState() {
     super.initState();
-    futureRecipeInstructions = fetchAnalyzedInstructions(324694);
+    print("Before the magic");
+    if (false && widget.nutritionalParams.toString() != "{}") {
+      print("Whoops the magic");
+      widget.nutritionalParams.forEach((k, v) => queryParams += "${k}=${v}&");
+      queryParams = queryParams.substring(0, queryParams.length - 1);
+    }
+    futureRecipe = fetchComplexSearchWithFullParamsList();
+    print(widget.nutritionalParams);
   }
 
-  Future<AnalyzedInstructions> fetchAnalyzedInstructions(int id) async {
-    String baseUrl =
-        "https://api.spoonacular.com/recipes/${id}/analyzedInstructions";
-    final response = await http.get("${baseUrl}?apiKey=${s_apikey}");
+  Future<ComplexSearchWithFullParams>
+      fetchComplexSearchWithFullParamsList() async {
+    // instructionsRequired, addRecipeNutrition
+    String baseUrl = "";
+    if (widget.nutritionalParams == {}) {
+      baseUrl =
+          "https://api.spoonacular.com/recipes/random?apiKey=${s_apikey}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=1";
+    } else {
+      baseUrl = "";
+      // "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&${queryParams}&number=21";
+      // "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&${queryParams}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=1";
+    }
+
+    baseUrl =
+        "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=1";
+
+    final response = await http.get("${baseUrl}");
+
+    print("Response: ${jsonDecode(response.body)}");
 
     if (response.statusCode == 200) {
-      return AnalyzedInstructions.fromJson(jsonDecode((response.body))[0]);
+      return ComplexSearchWithFullParams.fromJson(jsonDecode((response.body)));
     } else {
       throw Exception('Failed to load recipe');
     }
@@ -44,29 +66,20 @@ class _testing_groundsState extends State<testing_grounds> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: FutureBuilder<AnalyzedInstructions>(
-          future: futureRecipeInstructions,
+        child: FutureBuilder<ComplexSearchWithFullParams>(
+          future: futureRecipe,
           builder: (context, snapshot) {
-            print("snapshot: ${snapshot.data.toString()}");
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.hasData) {
-              final steps = snapshot.data.steps;
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                    itemCount: snapshot.data.steps.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("${steps[index].number}. ${steps[index].step}"),
-                          Divider(
-                            color: Colors.orange,
-                            thickness: 1.0,
-                          )
-                        ],
-                      );
-                    }),
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              print(snapshot.data.results[0]);
+              // print(snapshot.data.);
+              return Container(
+                width: 100.0,
+                height: 100.0,
+                color: Colors.green,
+                child: RecipeCard(
+                  recipe: snapshot.data.results[0],
+                ),
               );
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");

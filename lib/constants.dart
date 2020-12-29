@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const s_apikey = "";
+
 const String navBarTitle = "Just east of pasta is health.";
 
 // AppBar
@@ -22,12 +24,23 @@ final appBar = AppBar(
 ///////////////
 // Text Styling //
 //////////////
-const cardTextStyleTitle = TextStyle(
+
+Color TitleColor = Colors.green[900];
+
+TextStyle cardTextStyleTitle = TextStyle(
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w900,
   fontSize: 20.0,
   color: Colors.black,
 );
+
+TextStyle weeklyOverviewWeekdayStyle = TextStyle(
+  fontFamily: 'Montserrat',
+  fontSize: 28.0,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+);
+
 const cardTextStyleSub = TextStyle(
   fontFamily: 'Montserrat',
   fontSize: 14.0,

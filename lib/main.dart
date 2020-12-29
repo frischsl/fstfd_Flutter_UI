@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.green,
           unselectedWidgetColor: Colors.green),
 //      home: Example(),
-      initialRoute: '/RecipeDetails',
+      initialRoute: '/MainPageScreen',
       routes: {
         '/recipe_detail': (context) => recipe_detail(),
         '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
