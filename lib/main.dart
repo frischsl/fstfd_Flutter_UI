@@ -1,5 +1,6 @@
 import 'package:fast_food/screens/MainPageScreen.dart';
 import 'package:fast_food/screens/NutrientSelectionScreen.dart';
+import 'package:fast_food/screens/RecipeDetails.dart';
 import 'package:fast_food/screens/WeeklyOverview.dart';
 import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:fast_food/screens/weekly_meal_plan_overview.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.green,
           unselectedWidgetColor: Colors.green),
 //      home: Example(),
-      initialRoute: '/MainPageScreen',
+      initialRoute: '/RecipeDetails',
       routes: {
         '/recipe_detail': (context) => recipe_detail(),
         '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/WeeklyOverview': (context) => WeeklyOverview(),
         '/NutrientSelectionScreen': (context) => NutrientSelectionScreen(),
         '/MainPageScreen': (context) => MainPageScreen(),
+        '/RecipeDetails': (context) => RecipeDetails(),
       },
     );
   }

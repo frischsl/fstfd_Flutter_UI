@@ -1,5 +1,4 @@
-// import 'dart:html';
-
+import 'package:fast_food/screens/WeeklyOverview.dart';
 import 'package:fast_food/screens/testingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
@@ -73,25 +72,14 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                if (tabIndex == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DataTransfer(
-                        params: NutrientParams,
-                      ),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WeeklyOverview(
+                      nutritionalParams: NutrientParams,
                     ),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DataTransfer(
-                        params: NutrientParams,
-                      ),
-                    ),
-                  );
-                }
+                  ),
+                );
               },
               child: Icon(Icons.keyboard_arrow_right, color: Colors.black),
             ),
@@ -147,7 +135,6 @@ class _NutrientBuilderState extends State<NutrientBuilder> {
   @override
   initState() {
     super.initState();
-    print(widget.startingSliderValue);
     curRangeValues = widget.startingSliderValue;
     isActive = widget.active;
   }
@@ -255,12 +242,9 @@ class _NutrientSelectorsState extends State<NutrientSelectors> {
     nutrientList.forEach((n) {
       RangeValues startVals = null;
       if (NutrientParams != null && NutrientParams.containsKey("min${n[0]}")) {
-        print("In");
         startVals = RangeValues(NutrientParams["min${n[0]}"].toDouble(),
             NutrientParams["max${n[0]}"].toDouble());
-        print("Start Values: ${startVals}");
       }
-      print("Start Values: ${startVals}");
       nbl.add(NutrientBuilder(
         nutrientName: n[0],
         startingSliderValue: startVals ?? RangeValues(n[3], n[4]),
@@ -439,16 +423,15 @@ class _DietSelectorState extends State<DietSelector> {
           ),
           CheckboxGroup_edit(
             checked: NutrientParams["Intolerances"] != null
-                ? NutrientParams["Intolerances"].toString().split(", ")
+                ? NutrientParams["Intolerances"].toString().split(",")
                 : [],
             labels: IntoleranceList,
             labelStyle: cardTextStyleSub,
             activeColor: Colors.orangeAccent,
             onSelected: (List selected) => setState(() {
-              print(NutrientParams["Intolerances"].toString().split(", "));
               if (selected.isNotEmpty) {
                 if (selected.length > 1) {
-                  NutrientParams["Intolerances"] = selected.join(", ");
+                  NutrientParams["Intolerances"] = selected.join(",");
                 } else {
                   NutrientParams["Intolerances"] = selected[0].toString();
                 }

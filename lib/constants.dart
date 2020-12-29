@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-const s_apikey = " ";
 const String navBarTitle = "Just east of pasta is health.";
 
 // AppBar

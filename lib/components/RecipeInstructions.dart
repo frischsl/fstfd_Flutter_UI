@@ -1,25 +1,18 @@
 import 'dart:convert';
-
-import 'package:fast_food/components/CreateNewMealPlanBtn.dart';
-import 'package:fast_food/components/PreviousMealPlanBtn.dart';
-import 'package:fast_food/screens/NutrientSelectionScreen.dart';
-import 'package:fast_food/screens/testingScreen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:fast_food/Models/AnalyzedInstructions.dart';
 import 'package:http/http.dart' as http;
 
-class testing_grounds extends StatefulWidget {
+class RecipeInstructions extends StatefulWidget {
   final int id;
 
-  const testing_grounds({Key key, this.id}) : super(key: key);
+  const RecipeInstructions({Key key, this.id}) : super(key: key);
   @override
-  _testing_groundsState createState() => _testing_groundsState();
+  _RecipeInstructionsState createState() => _RecipeInstructionsState();
 }
 
-class _testing_groundsState extends State<testing_grounds> {
+class _RecipeInstructionsState extends State<RecipeInstructions> {
   Future<AnalyzedInstructions> futureRecipeInstructions;
 
   @override
