@@ -1,4 +1,4 @@
-import 'package:fast_food/screens/MainPageScreen.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/MainPageScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:fast_food/constants.dart';
 // import 'package:fast_food/Models/ComplexSearch.dart';
 import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
-import 'package:fast_food/components/RecipeCard.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/RecipeCard.dart';
 
 class WeeklyOverview extends StatefulWidget {
   final nutritionalParams;
@@ -20,7 +20,6 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
   Future<ComplexSearchWithFullParams> futureRecipe;
   String queryParams = "";
   List<int> recipeIds = [];
-  int _currentIndex = 1;
 
   @override
   void initState() {
@@ -59,13 +58,15 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.close,
-          color: Colors.black,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+          child: Icon(
+            Icons.close,
+            color: Colors.black,
+          ),
         ),
-        actions: [
-          Icon(Icons.add, color: Colors.black),
-        ],
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
@@ -380,93 +381,7 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        backgroundColor: Colors.white,
-        onTap: (int index) {
-          switch (index) {
-            case 0:
-              {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainPageScreen(),
-                  ),
-                );
-              }
-              break;
-
-            case 1:
-              {}
-              break;
-
-            case 2:
-              {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainPageScreen(),
-                  ),
-                );
-              }
-              break;
-
-            case 3:
-              {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainPageScreen(),
-                  ),
-                );
-              }
-              break;
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add,
-              color: Colors.green,
-            ),
-            backgroundColor: Colors.white,
-            title: Text(
-              "Create",
-              style: TextStyle(color: Colors.green),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.restaurant_menu,
-              color: Colors.green,
-            ),
-            title: Text(
-              "Meal Plan",
-              style: TextStyle(color: Colors.green),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.shopping_cart,
-              color: Colors.green,
-            ),
-            title: Text(
-              "Grocery",
-              style: TextStyle(color: Colors.green),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_circle,
-              color: Colors.green,
-            ),
-            title: Text(
-              "Social",
-              style: TextStyle(color: Colors.green),
-            ),
-          )
-        ],
-      ),
+      //
     );
   }
 }

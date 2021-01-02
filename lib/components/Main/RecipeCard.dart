@@ -1,4 +1,4 @@
-import 'package:fast_food/screens/RecipeDetails.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/RecipeDetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';

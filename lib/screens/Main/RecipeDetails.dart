@@ -66,11 +66,10 @@ class _RecipeDetailsState extends State<RecipeDetails>
             child: Stack(
               children: [
                 Image.network(
-                      widget.recipe.image,
-                      scale: 0.7,
-                    ) ??
-                    Image.network(
-                        "https://spoonacular.com/recipeImages/716429-556x370.jpg"),
+                  widget.recipe.image ??
+                      "https://spoonacular.com/recipeImages/716429-556x370.jpg",
+                  scale: 0.7,
+                ),
                 SafeArea(
                   child: Align(
                       alignment: Alignment.topRight,

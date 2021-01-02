@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fast_food/components/RecipeCard.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/RecipeCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

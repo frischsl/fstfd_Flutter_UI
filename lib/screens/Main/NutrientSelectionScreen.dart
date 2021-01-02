@@ -1,9 +1,9 @@
-import 'package:fast_food/screens/WeeklyOverview.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/WeeklyOverview.dart';
 import 'package:fast_food/screens/testingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-import '../constants.dart';
-import 'package:fast_food/components/groupedCheckboxes_edited.dart';
+import '../../constants.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/groupedCheckboxes_edited.dart';
 
 var NutrientParams = {};
 const heightBetween = 18.0;
@@ -93,7 +93,17 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
         ]),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.green,
-          child: Icon(Icons.restaurant_menu),
+          splashColor: Colors.orange,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.restaurant_menu),
+              Text(
+                "Cook!",
+                style: TextStyle(fontSize: 12.0),
+              ),
+            ],
+          ),
           onPressed: () {
             Navigator.pushReplacement(
               context,

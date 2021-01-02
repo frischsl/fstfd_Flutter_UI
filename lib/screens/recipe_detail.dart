@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fast_food/Models/ComplexSearch.dart' as cs;
 import 'package:fast_food/Models/RecipeInformation.dart';
 import 'package:flutter/material.dart';
-import 'package:fast_food/components/gBottomNavBar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:flutter_counter/flutter_counter.dart';
 import 'package:http/http.dart' as http;
@@ -63,7 +62,7 @@ class _recipe_detailState extends State<recipe_detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: gBottomNavBar(),
+      // bottomNavigationBar: gBottomNavBar(),
       appBar: appBar,
       // AppBar(
       //   backgroundColor: Colors.grey[50],

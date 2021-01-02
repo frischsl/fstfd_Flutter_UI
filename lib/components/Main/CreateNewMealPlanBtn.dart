@@ -1,7 +1,7 @@
-import 'package:fast_food/screens/NutrientSelectionScreen.dart';
+import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/NutrientSelectionScreen.dart';
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 
 class CreateNewMealPlanBtn extends StatefulWidget {
   @override

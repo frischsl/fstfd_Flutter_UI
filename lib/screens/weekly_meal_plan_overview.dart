@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fast_food/components/gBottomNavBar.dart';
+// import 'package:fast_food/components/gBottomNavBar.dart';
 import 'package:fast_food/components/recipe_card.dart';
 //import 'package:expansion_card/expansion_card.dart';
 import 'package:fast_food/components/expand_block.dart';
@@ -18,7 +18,7 @@ class _weekly_meal_plan_overviewState extends State<weekly_meal_plan_overview> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      bottomNavigationBar: gBottomNavBar(),
+      // bottomNavigationBar: gBottomNavBar(),
       body: SafeArea(
         child: ListView(
           children: [
