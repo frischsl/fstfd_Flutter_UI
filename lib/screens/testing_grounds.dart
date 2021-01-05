@@ -9,84 +9,55 @@ import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dar
 import '../constants.dart';
 
 class testing_grounds extends StatefulWidget {
-  final nutritionalParams;
+  final weekday;
+  final indexAdd;
 
-  const testing_grounds({Key key, this.nutritionalParams}) : super(key: key);
+  const testing_grounds({Key key, this.weekday, this.indexAdd})
+      : super(key: key);
   @override
   _testing_groundsState createState() => _testing_groundsState();
 }
 
 class _testing_groundsState extends State<testing_grounds> {
-  Future<ComplexSearchWithFullParams> futureRecipe;
-  String queryParams = "";
-  List<int> recipeIds = [];
-  int _currentIndex = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    print("Before the magic");
-    if (false && widget.nutritionalParams.toString() != "{}") {
-      print("Whoops the magic");
-      widget.nutritionalParams.forEach((k, v) => queryParams += "${k}=${v}&");
-      queryParams = queryParams.substring(0, queryParams.length - 1);
-    }
-    futureRecipe = fetchComplexSearchWithFullParamsList();
-    print(widget.nutritionalParams);
-  }
-
-  Future<ComplexSearchWithFullParams>
-      fetchComplexSearchWithFullParamsList() async {
-    // instructionsRequired, addRecipeNutrition
-    String baseUrl = "";
-    if (widget.nutritionalParams == {}) {
-      baseUrl =
-          "https://api.spoonacular.com/recipes/random?apiKey=${s_apikey}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=1";
-    } else {
-      baseUrl = "";
-      // "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&${queryParams}&number=21";
-      // "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&${queryParams}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=1";
-    }
-
-    baseUrl =
-        "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=1";
-
-    final response = await http.get("${baseUrl}");
-
-    print("Response: ${jsonDecode(response.body)}");
-
-    if (response.statusCode == 200) {
-      return ComplexSearchWithFullParams.fromJson(jsonDecode((response.body)));
-    } else {
-      throw Exception('Failed to load recipe');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: FutureBuilder<ComplexSearchWithFullParams>(
-          future: futureRecipe,
-          builder: (context, snapshot) {
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              print(snapshot.data.results[0]);
-              // print(snapshot.data.);
-              return Container(
-                width: 100.0,
-                height: 100.0,
-                color: Colors.green,
-                child: RecipeCard(
-                  recipe: snapshot.data.results[0],
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
+        child: Column(
+          children: [
+            Text(
+              "Monday",
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height * 0.27,
+                maxHeight: MediaQuery.of(context).size.height * 0.39,
+                minWidth: double.infinity,
+              ),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 3, //snapshot.data.recipes.length,
+                itemBuilder: (context, index) {
+                  // final recipe = snapshot.data.results[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.44,
+                      decoration: BoxDecoration(
+                          // color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Text(
+                        index.toString(),
+                      ),
+                      // child: RecipeCard(
+                      //   recipe: recipe,
+                      // ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

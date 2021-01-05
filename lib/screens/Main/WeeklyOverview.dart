@@ -1,4 +1,9 @@
+import 'dart:collection';
+
 import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/MainPageScreen.dart';
+import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
+import 'package:fast_food/screens/Main/MainPageScreen.dart';
+import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +12,8 @@ import 'package:fast_food/constants.dart';
 // import 'package:fast_food/Models/ComplexSearch.dart';
 import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
 import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/RecipeCard.dart';
+import 'package:fast_food/components/Main/WeekdayRecipes.dart';
+import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
 
 class WeeklyOverview extends StatefulWidget {
   final nutritionalParams;
@@ -20,21 +27,29 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
   Future<ComplexSearchWithFullParams> futureRecipe;
   String queryParams = "";
   List<int> recipeIds = [];
+  List WeekDays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ];
+  ComplexSearchWithFullParams currentRecipes;
 
   @override
   void initState() {
     super.initState();
-    print("Before nutritionalParams: ${widget.nutritionalParams.toString()}");
     if (widget.nutritionalParams.toString() != "{}") {
       widget.nutritionalParams.forEach((k, v) => queryParams += "${k}=${v}&");
       queryParams = queryParams.substring(0, queryParams.length - 1);
     }
     futureRecipe = fetchComplexRecipeList();
-    print(widget.nutritionalParams);
+    // print(widget.nutritionalParams);
   }
 
   Future<ComplexSearchWithFullParams> fetchComplexRecipeList() async {
-    // instructionsRequired, addRecipeNutrition
     String baseUrl = "";
     if (widget.nutritionalParams == {}) {
       baseUrl =
@@ -44,10 +59,10 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
           "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&${queryParams}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=21";
     }
 
-    print("${baseUrl}");
+    // print("${baseUrl}");
 
     final response = await http.get("${baseUrl}");
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       return ComplexSearchWithFullParams.fromJson(jsonDecode((response.body)));
     } else {
@@ -77,311 +92,61 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 40.0),
-                Text(
-                  "Sunday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
+          child: FutureBuilder<ComplexSearchWithFullParams>(
+            future: futureRecipe,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                currentRecipes = snapshot.data;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: 7,
+                  itemBuilder: (context, index) {
+                    return WeekdayRecipes(
+                      weekday: WeekDays[index],
+                      indexAdd: index * 3,
+                      recipes: snapshot.data.results,
+                    );
                   },
-                ),
-                Text(
-                  "Monday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index + 3];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-                Text(
-                  "Tuesday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index + 6];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-                Text(
-                  "Wednesday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index + 9];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-                Text(
-                  "Thursday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index + 12];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-                Text(
-                  "Friday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index + 15];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-                Text(
-                  "Saturday",
-                  style: weeklyOverviewWeekdayStyle,
-                ),
-                FutureBuilder<ComplexSearchWithFullParams>(
-                  future: futureRecipe,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height * 0.27,
-                          maxHeight: MediaQuery.of(context).size.height * 0.39,
-                          minWidth: double.infinity,
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3, //snapshot.data.recipes.length,
-                          itemBuilder: (context, index) {
-                            final recipe = snapshot.data.results[index + 18];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.44,
-                                decoration: BoxDecoration(
-                                    // color: Colors.orangeAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    // By default, show a loading spinner.
-                    return CircularProgressIndicator();
-                  },
-                ),
-              ],
-            ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              // By default, show a loading spinner.
+              return Center(child: CircularProgressIndicator());
+            },
           ),
         ),
       ),
-      //
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.shopping_cart),
+        elevation: 20.0,
+        backgroundColor: Colors.green,
+        onPressed: () {
+          SplayTreeMap ingredients = new SplayTreeMap();
+          if (currentRecipes != null) {
+            currentRecipes.results.forEach((recipe) {
+              recipe.nutrition.ingredients.forEach((ingred) {
+                if (ingredients.containsKey(ingred.name)) {
+                  ingredients[ingred.name] =
+                      ingredients[ingred.name] + ingred.amount;
+                } else {
+                  ingredients[ingred.name] = ingred.amount;
+                }
+              });
+            });
+          }
+          print(ingredients);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GroceryList(
+                      ingredients: ingredients,
+                    )),
+          );
+        },
+      ),
     );
   }
 }
