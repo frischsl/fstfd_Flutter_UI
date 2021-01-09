@@ -81,7 +81,7 @@ class _RecipeDetailsState extends State<RecipeDetails>
                             isRecipeLiked = !isRecipeLiked;
                           });
                         },
-                        color: Colors.orange[400],
+                        color: Colors.green[400],
                         elevation: 28.0,
                         child: (isRecipeLiked)
                             ? Icon(
@@ -105,7 +105,7 @@ class _RecipeDetailsState extends State<RecipeDetails>
                           // TODO: Go back & check for changes
                           Navigator.pop(context);
                         },
-                        color: Colors.orange[400],
+                        color: Colors.green[400],
                         elevation: 28.0,
                         child: Icon(
                           LineIcons.arrow_left,

@@ -1,8 +1,16 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'Models/ComplexSearchWithRecipeInformationNutrition.dart';
+import 'Models/User.dart';
 
 const s_apikey = "";
 
 const String navBarTitle = "Just east of pasta is health.";
+
+SplayTreeMap<String, Ingredients> ingredients =
+    new SplayTreeMap<String, Ingredients>();
+
+User kUser;
 
 // AppBar
 final appBar = AppBar(

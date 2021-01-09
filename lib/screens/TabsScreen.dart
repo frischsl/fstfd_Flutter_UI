@@ -1,5 +1,8 @@
 import 'package:fast_food/screens/Main/MainPageScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:fast_food/constants.dart';
+
+import 'GroceryList/GroceryListScreen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -8,10 +11,15 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _currentIndex = 0;
-
   final _mainPageScreen = GlobalKey<NavigatorState>();
   final _groceryList = GlobalKey<NavigatorState>();
   final _socialMedia = GlobalKey<NavigatorState>();
+
+  dynamic refresh(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +31,16 @@ class _TabsScreenState extends State<TabsScreen> {
             key: _mainPageScreen,
             onGenerateRoute: (route) => MaterialPageRoute(
               settings: route,
-              builder: (context) => MainPageScreen(),
+              builder: (context) => MainPageScreen(
+                notifyParent: refresh,
+              ),
             ),
           ),
           Navigator(
             key: _groceryList,
             onGenerateRoute: (route) => MaterialPageRoute(
               settings: route,
-              builder: (context) => MainPageScreen(),
+              builder: (context) => GroceryList(ingredients: ingredients),
             ),
           ),
           Navigator(

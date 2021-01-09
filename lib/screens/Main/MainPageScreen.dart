@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class MainPageScreen extends StatefulWidget {
+  final Function(int) notifyParent;
+
+  const MainPageScreen({Key key, this.notifyParent}) : super(key: key);
   @override
   _MainPageScreenState createState() => _MainPageScreenState();
 }
@@ -29,7 +32,9 @@ class _MainPageScreenState extends State<MainPageScreen> {
             child: Column(
               children: [
                 SizedBox(height: 20.0),
-                CreateNewMealPlanBtn(),
+                CreateNewMealPlanBtn(
+                  notifyParent: widget.notifyParent,
+                ),
                 SizedBox(
                   height: 8.0,
                 ),

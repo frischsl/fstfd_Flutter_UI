@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/MainPageScreen.dart';
 import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
 import 'package:fast_food/screens/Main/MainPageScreen.dart';
+import 'package:fast_food/screens/TabsScreen.dart';
 import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,10 @@ import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
 
 class WeeklyOverview extends StatefulWidget {
   final nutritionalParams;
+  final Function(int) notifyParent;
 
-  const WeeklyOverview({Key key, this.nutritionalParams}) : super(key: key);
+  const WeeklyOverview({Key key, this.nutritionalParams, this.notifyParent})
+      : super(key: key);
   @override
   _WeeklyOverviewState createState() => _WeeklyOverviewState();
 }
@@ -120,31 +123,38 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.shopping_cart),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.add,
+              size: 20.0,
+            ),
+            Icon(Icons.shopping_cart),
+          ],
+        ),
         elevation: 20.0,
         backgroundColor: Colors.green,
         onPressed: () {
-          SplayTreeMap ingredients = new SplayTreeMap();
           if (currentRecipes != null) {
             currentRecipes.results.forEach((recipe) {
               recipe.nutrition.ingredients.forEach((ingred) {
                 if (ingredients.containsKey(ingred.name)) {
-                  ingredients[ingred.name] =
-                      ingredients[ingred.name] + ingred.amount;
+                  if (ingred.unit == ingredients[ingred.name].unit)
+                    ingredients[ingred.name].amount += ingred.amount;
+                  else if (ingredients
+                      .containsKey("${ingred.name}_${ingred.unit}"))
+                    ingredients["${ingred.name}_${ingred.unit}"].amount +=
+                        ingred.amount;
+                  else
+                    ingredients["${ingred.name}_${ingred.unit}"] = ingred;
                 } else {
-                  ingredients[ingred.name] = ingred.amount;
+                  ingredients[ingred.name] = ingred;
                 }
               });
             });
           }
-          print(ingredients);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => GroceryList(
-                      ingredients: ingredients,
-                    )),
-          );
+          widget.notifyParent(1);
         },
       ),
     );

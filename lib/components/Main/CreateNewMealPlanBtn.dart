@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class CreateNewMealPlanBtn extends StatefulWidget {
+  final Function(int) notifyParent;
+
+  const CreateNewMealPlanBtn({Key key, this.notifyParent}) : super(key: key);
   @override
   _CreateNewMealPlanBtnState createState() => _CreateNewMealPlanBtnState();
 }
@@ -21,7 +24,9 @@ class _CreateNewMealPlanBtnState extends State<CreateNewMealPlanBtn> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NutrientSelectionScreen(),
+              builder: (context) => NutrientSelectionScreen(
+                notifyParent: widget.notifyParent,
+              ),
             ),
           );
         },

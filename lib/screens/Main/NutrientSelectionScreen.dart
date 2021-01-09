@@ -10,6 +10,9 @@ const heightBetween = 18.0;
 const customElevation = 3.0;
 
 class NutrientSelectionScreen extends StatefulWidget {
+  final Function(int) notifyParent;
+
+  const NutrientSelectionScreen({Key key, this.notifyParent}) : super(key: key);
   @override
   _NutrientSelectionScreenState createState() =>
       _NutrientSelectionScreenState();
@@ -110,6 +113,7 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
               MaterialPageRoute(
                 builder: (context) => WeeklyOverview(
                   nutritionalParams: NutrientParams,
+                  notifyParent: widget.notifyParent,
                 ),
               ),
             );

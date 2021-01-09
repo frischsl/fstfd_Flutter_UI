@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:fast_food/screens/Login/WelcomeScreen.dart';
 import 'package:fast_food/screens/TabsScreen.dart';
 import 'package:fast_food/screens/Main/WeeklyOverview.dart';
 import 'package:fast_food/screens/Main/RecipeDetails.dart';
@@ -11,8 +14,21 @@ import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() {
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+void main() async {
+  HttpOverrides.global = new MyHttpOverrides();
+
   runApp(MyApp());
 }
 
@@ -27,7 +43,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primaryColor: Colors.green,
           unselectedWidgetColor: Colors.green),
-      initialRoute: '/TabsScreen',
+      initialRoute: '/WelcomeScreen',
       routes: {
         '/recipe_detail': (context) => recipe_detail(),
         '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
@@ -38,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/RecipeDetails': (context) => RecipeDetails(),
         '/TabsScreen': (context) => TabsScreen(),
         '/GroceryList': (context) => GroceryList(),
+        '/WelcomeScreen': (context) => WelcomeScreen(),
       },
     );
   }

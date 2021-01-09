@@ -11,12 +11,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_nav_bar: ^3.0.0
   line_icons: ^0.2.0
   flutter_counter: ^1.0.3
   expandable: ^4.1.4
   carousel_slider: ^2.3.1
   http: ^0.12.2
+  sqflite:
+  path:
+  path_provider:
+  fluttertoast: ^7.1.6
 
   cupertino_icons: ^0.1.3
 
