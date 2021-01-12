@@ -14,7 +14,11 @@ class _GroceryListState extends State<GroceryList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar: AppBar(
+        title: Text("Let's eat!", style: cardTextStyleTitle),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

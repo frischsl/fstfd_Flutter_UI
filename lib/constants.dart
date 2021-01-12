@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'Models/ComplexSearchWithRecipeInformationNutrition.dart';
 import 'Models/User.dart';
 
+// Spoonacular api
 const s_apikey = "";
 
 const String navBarTitle = "Just east of pasta is health.";
@@ -67,7 +68,10 @@ const mainPagePreviousBtnSubTextStyle = TextStyle(
     fontFamily: 'Montserrat');
 
 const mainPagePreviousBtnTitleTextStyle = TextStyle(
-    color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Montserrat');
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Montserrat',
+    fontSize: 25.0);
 
 var nutrientSelectionTitleTextStyle = TextStyle(
   fontFamily: 'Montserrat',

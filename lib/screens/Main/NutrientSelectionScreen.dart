@@ -1,18 +1,22 @@
 import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/WeeklyOverview.dart';
 import 'package:fast_food/screens/testingScreen.dart';
+import 'package:fast_food/services/FstFdAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../constants.dart';
 import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/groupedCheckboxes_edited.dart';
 
 var NutrientParams = {};
 const heightBetween = 18.0;
-const customElevation = 3.0;
+const customElevation = 1.0;
 
 class NutrientSelectionScreen extends StatefulWidget {
   final Function(int) notifyParent;
+  final String title;
 
-  const NutrientSelectionScreen({Key key, this.notifyParent}) : super(key: key);
+  const NutrientSelectionScreen({Key key, this.notifyParent, this.title})
+      : super(key: key);
   @override
   _NutrientSelectionScreenState createState() =>
       _NutrientSelectionScreenState();
@@ -80,7 +84,7 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            navBarTitle,
+            "Let's build: '${widget.title}'",
             style: cardTextStyleTitle,
           ),
         ),
@@ -107,16 +111,47 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
               ),
             ],
           ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WeeklyOverview(
-                  nutritionalParams: NutrientParams,
-                  notifyParent: widget.notifyParent,
+          onPressed: () async {
+            String queryUrl;
+
+            if (NutrientParams.toString() == "{}") {
+              queryUrl =
+                  "https://api.spoonacular.com/recipes/complexSearch?apiKey=$s_apikey&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=21";
+            } else {
+              String queryParams = "";
+              NutrientParams.forEach((k, v) => queryParams += "${k}=${v}&");
+              queryParams = queryParams.substring(0, queryParams.length - 1);
+              queryUrl =
+                  "https://api.spoonacular.com/recipes/complexSearch?apiKey=$s_apikey&$queryParams&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=21";
+            }
+
+            bool added = await FstFdAPI.AddMealPlan(
+                queryUrl, widget.title, kUser.userID);
+            print('added $added');
+
+            if (added) {
+              setState(() {});
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WeeklyOverview(
+                    nutritionalParams: NutrientParams,
+                    notifyParent: widget.notifyParent,
+                    queryString: queryUrl,
+                    mealPlanTitle: widget.title,
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              Fluttertoast.showToast(
+                  msg: "Something went wrong, please try again",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 2,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            }
           },
         ),
       ),

@@ -7,8 +7,10 @@ class WeekdayRecipes extends StatefulWidget {
   final weekday;
   final indexAdd;
   final recipes;
+  final mealPlanUrl;
 
-  const WeekdayRecipes({Key key, this.weekday, this.indexAdd, this.recipes})
+  const WeekdayRecipes(
+      {Key key, this.weekday, this.indexAdd, this.recipes, this.mealPlanUrl})
       : super(key: key);
   @override
   _WeekdayRecipesState createState() => _WeekdayRecipesState();
@@ -44,6 +46,7 @@ class _WeekdayRecipesState extends State<WeekdayRecipes> {
                       // color: Colors.orangeAccent,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: RecipeCard(
+                    mealPlanUrl: widget.mealPlanUrl,
                     recipe: recipe,
                   ),
                 ),

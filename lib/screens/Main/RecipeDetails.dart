@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fast_food/Models/RecipeInformation.dart';
+import 'package:fast_food/components/Main/ShareScreen.dart';
 import 'package:fast_food/components/RecipeInstructions.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';
@@ -10,8 +11,10 @@ import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dar
 
 class RecipeDetails extends StatefulWidget {
   final Results recipe;
+  final String mealPlanUrl;
 
-  const RecipeDetails({Key key, this.recipe}) : super(key: key);
+  const RecipeDetails({Key key, this.recipe, this.mealPlanUrl})
+      : super(key: key);
   @override
   _RecipeDetailsState createState() => _RecipeDetailsState();
 }
@@ -58,64 +61,74 @@ class _RecipeDetailsState extends State<RecipeDetails>
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-            child: Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SafeArea(
-            child: Stack(
-              children: [
-                Image.network(
+          Stack(
+            alignment: Alignment.topLeft,
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Image.network(
                   widget.recipe.image ??
                       "https://spoonacular.com/recipeImages/716429-556x370.jpg",
                   scale: 0.7,
                 ),
-                SafeArea(
-                  child: Align(
-                      alignment: Alignment.topRight,
-                      child: RaisedButton(
-                        shape: CircleBorder(),
-                        onPressed: () {
-                          // TODO: Save user preference OR do this on back
-                          setState(() {
-                            isRecipeLiked = !isRecipeLiked;
-                          });
-                        },
-                        color: Colors.green[400],
-                        elevation: 28.0,
-                        child: (isRecipeLiked)
-                            ? Icon(
-                                LineIcons.heart,
-                                color: Colors.red[400],
-                                size: 20.0,
-                              )
-                            : Icon(
-                                LineIcons.heart_o,
-                                color: Colors.white,
-                                size: 20.0,
-                              ),
-                      )),
-                ),
-                SafeArea(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: RaisedButton(
-                        shape: CircleBorder(),
-                        onPressed: () {
-                          // TODO: Go back & check for changes
-                          Navigator.pop(context);
-                        },
-                        color: Colors.green[400],
-                        elevation: 28.0,
-                        child: Icon(
-                          LineIcons.arrow_left,
-                          color: Colors.white,
-                          size: 23.0,
-                        ),
-                      )),
-                ),
-              ],
-            ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SafeArea(
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: RaisedButton(
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            // TODO: Go back & check for changes
+                            Navigator.pop(context);
+                          },
+                          color: Colors.green[400],
+                          elevation: 28.0,
+                          child: Center(
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 23.0,
+                            ),
+                          ),
+                        )),
+                  ),
+                  SafeArea(
+                    child: Align(
+                        alignment: Alignment.topRight,
+                        child: RaisedButton(
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            if (widget.recipe.image != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShareScreen(
+                                          title: widget.recipe.title,
+                                          img: widget.recipe.image,
+                                          mealPlanURL: widget.mealPlanUrl,
+                                          type: "Recipe",
+                                        )),
+                              );
+                            }
+                          },
+                          color: Colors.green[400],
+                          elevation: 28.0,
+                          child: Icon(
+                            Icons.share,
+                            color: Colors.white,
+                            size: 20.0,
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,6 +297,6 @@ class _RecipeDetailsState extends State<RecipeDetails>
           ),
         ],
       ),
-    )));
+    ));
   }
 }

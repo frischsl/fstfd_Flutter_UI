@@ -1,4 +1,6 @@
 import 'package:fast_food/screens/Main/MainPageScreen.dart';
+import 'package:fast_food/screens/SocialMedia/SocialMedia.dart';
+import 'package:fast_food/screens/SocialMedia/UserProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';
 
@@ -10,14 +12,22 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  bool isVisible = true;
   int _currentIndex = 0;
   final _mainPageScreen = GlobalKey<NavigatorState>();
   final _groceryList = GlobalKey<NavigatorState>();
   final _socialMedia = GlobalKey<NavigatorState>();
+  final _userProfile = GlobalKey<NavigatorState>();
 
   dynamic refresh(int index) {
     setState(() {
       _currentIndex = index;
+    });
+  }
+
+  dynamic setBottomNavBar(bool visible) {
+    setState(() {
+      isVisible = visible;
     });
   }
 
@@ -47,31 +57,50 @@ class _TabsScreenState extends State<TabsScreen> {
             key: _socialMedia,
             onGenerateRoute: (route) => MaterialPageRoute(
               settings: route,
-              builder: (context) => MainPageScreen(),
+              builder: (context) => SocialMediaScreen(
+                notifyParent: refresh,
+              ),
+            ),
+          ),
+          Navigator(
+            key: _userProfile,
+            onGenerateRoute: (route) => MaterialPageRoute(
+              settings: route,
+              builder: (context) => UserProfileScreen(
+                userID: (kUser != null) ? kUser.userID : 1,
+                refresh: refresh,
+                navBarVisible: setBottomNavBar,
+              ),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (val) => _onTap(val, context),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            title: Text('Create'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            title: Text('Grocery'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Social Media'),
-          ),
-        ],
-      ),
+      bottomNavigationBar: (isVisible)
+          ? BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: _currentIndex,
+              onTap: (val) => _onTap(val, context),
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add),
+                  title: Text('Create'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart),
+                  title: Text('Grocery'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.whatshot),
+                  title: Text('Social Media'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle),
+                  title: Text('Profile'),
+                ),
+              ],
+            )
+          : null,
     );
   }
 
@@ -79,6 +108,7 @@ class _TabsScreenState extends State<TabsScreen> {
     if (_currentIndex == val) {
       switch (val) {
         case 0:
+          _mainPageScreen.currentState.setState(() {});
           _mainPageScreen.currentState.popUntil((route) => route.isFirst);
           break;
         case 1:
@@ -86,6 +116,9 @@ class _TabsScreenState extends State<TabsScreen> {
           break;
         case 2:
           _socialMedia.currentState.popUntil((route) => route.isFirst);
+          break;
+        case 3:
+          _userProfile.currentState.popUntil((route) => route.isFirst);
           break;
         default:
       }

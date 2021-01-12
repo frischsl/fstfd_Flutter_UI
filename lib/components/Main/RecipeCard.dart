@@ -7,8 +7,10 @@ import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dar
 
 class RecipeCard extends StatefulWidget {
   final Results recipe;
+  final String mealPlanUrl;
 
-  const RecipeCard({Key key, @required this.recipe}) : super(key: key);
+  const RecipeCard({Key key, @required this.recipe, this.mealPlanUrl})
+      : super(key: key);
 
   @override
   _RecipeCardState createState() => _RecipeCardState();
@@ -24,6 +26,7 @@ class _RecipeCardState extends State<RecipeCard> {
           MaterialPageRoute(
             builder: (context) => RecipeDetails(
               recipe: widget.recipe,
+              mealPlanUrl: widget.mealPlanUrl,
             ),
           ),
         );

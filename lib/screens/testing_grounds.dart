@@ -1,10 +1,5 @@
-import 'dart:convert';
-
-import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/RecipeCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

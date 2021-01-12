@@ -27,7 +27,10 @@ class DatabaseProvider {
           "userID integer primary key AUTOINCREMENT,"
           "email TEXT,"
           "password TEXT,"
-          "guid TEXT"
+          "guid TEXT,"
+          "firstName TEXT,"
+          "lastName TEXT,"
+          "joined TEXT"
           ")");
     });
   }

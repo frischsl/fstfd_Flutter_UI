@@ -17,6 +17,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final fNameController = TextEditingController();
+  final lNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final reEnterPasswordController = TextEditingController();
@@ -24,6 +26,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     emailController.dispose();
+    fNameController.dispose();
+    lNameController.dispose();
     passwordController.dispose();
     reEnterPasswordController.dispose();
     super.dispose();
@@ -77,7 +81,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   SizedBox(height: 35.0),
                   Column(
-                    children: <Widget>[
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: _entryField("First Name",
+                                controller: fNameController),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Flexible(
+                            child: _entryField("Last Name",
+                                controller: lNameController),
+                          ),
+                        ],
+                      ),
                       _entryField("Email", controller: emailController),
                       _entryField("Password",
                           isPassword: true, controller: passwordController),
@@ -98,13 +117,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? true
                           : false;
 
+                      bool nameFieldsFilled =
+                          (fNameController.text.length > 0 &&
+                              lNameController.text.length > 0);
+
                       bool passwordLength =
-                          (passwordController.text.length >= 5) ? true : false;
+                          (passwordController.text.length >= 5);
                       // valid : register and redirect to login w/ toast
-                      if (emailValid && passwordsMatch && passwordLength) {
+                      if (emailValid &&
+                          passwordsMatch &&
+                          passwordLength &&
+                          nameFieldsFilled) {
                         // register
                         bool registered = await FstFdAPI.RegisterUser(
-                            emailController.text, passwordController.text);
+                            emailController.text,
+                            passwordController.text,
+                            fNameController.text,
+                            lNameController.text);
 
                         if (registered) {
                           // navigate
@@ -154,6 +183,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Fluttertoast.showToast(
                               msg:
                                   "Password length must be at least 5 characters long",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.TOP,
+                              timeInSecForIosWeb: 2,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "Please fill out all fields",
                               toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.TOP,
                               timeInSecForIosWeb: 2,

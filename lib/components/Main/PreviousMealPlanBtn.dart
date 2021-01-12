@@ -5,14 +5,12 @@ import '../../constants.dart';
 class PreviousMealPlanBtn extends StatefulWidget {
   final String title;
   final String subParams;
-  final Widget icon;
 
-  const PreviousMealPlanBtn(
-      {Key key,
-      @required this.title,
-      @required this.subParams,
-      @required this.icon})
-      : super(key: key);
+  const PreviousMealPlanBtn({
+    Key key,
+    @required this.title,
+    @required this.subParams,
+  }) : super(key: key);
   @override
   _PreviousMealPlanBtnState createState() => _PreviousMealPlanBtnState();
 }
@@ -20,21 +18,20 @@ class PreviousMealPlanBtn extends StatefulWidget {
 class _PreviousMealPlanBtnState extends State<PreviousMealPlanBtn> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(8.0),
-      child: RaisedButton(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+      child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        color: Colors.orangeAccent[200],
-        onPressed: () {},
+        color: Colors.orangeAccent,
+        margin: EdgeInsets.all(8.0),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.65,
           height: MediaQuery.of(context).size.height * 0.12,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              widget.icon,
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

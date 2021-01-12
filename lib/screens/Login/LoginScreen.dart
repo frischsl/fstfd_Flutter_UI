@@ -6,6 +6,7 @@ https://github.com/TheAlphamerc/flutter_login_signup
 import 'package:fast_food/constants.dart';
 import 'package:fast_food/screens/Login/RegisterScreen.dart';
 import 'package:fast_food/screens/Main/MainPageScreen.dart';
+import 'package:fast_food/screens/TabsScreen.dart';
 import 'package:fast_food/services/DatabaseProvider.dart';
 import 'package:fast_food/services/FstFdAPI.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MainPageScreen()));
+                                builder: (context) => TabsScreen()));
                       }
                     },
                     child: Container(

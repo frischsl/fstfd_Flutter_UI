@@ -1,4 +1,5 @@
 import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/NutrientSelectionScreen.dart';
+import 'package:fast_food/components/Main/NameMealPlanScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -24,7 +25,7 @@ class _CreateNewMealPlanBtnState extends State<CreateNewMealPlanBtn> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NutrientSelectionScreen(
+              builder: (context) => NameMealPlanScreen(
                 notifyParent: widget.notifyParent,
               ),
             ),

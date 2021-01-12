@@ -7,6 +7,7 @@ import 'package:fast_food/screens/Login/LoginScreen.dart';
 import 'package:fast_food/screens/Main/MainPageScreen.dart';
 import 'package:fast_food/services/DatabaseProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'RegisterScreen.dart';
 
@@ -16,32 +17,46 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  Image img;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xff9cd49f), Colors.green[700]])),
+          // image: DecorationImage(
+          //     alignment: Alignment.center,
+          //     image: NetworkImage(
+          //       "https://image.shutterstock.com/image-photo/wooden-spoon-ingredients-on-old-600w-318469892.jpg",
+          //     ),
+          //     fit: BoxFit.cover),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.green[200], Colors.green[800]]),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.15),
             Text(
-              "FstFd",
+              "Pasta",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 44.0,
+                fontSize: 150.0,
                 color: Colors.white,
-                fontFamily: 'Montserrat',
+                fontFamily: 'TheBlackBox',
                 fontWeight: FontWeight.bold,
-                letterSpacing: 5.0,
+                letterSpacing: 8.0,
               ),
             ),
-            SizedBox(height: 35.0),
+            Text("By: Zac and Sam"),
+            SizedBox(height: 10.0),
             InkWell(
               onTap: () async {
                 Navigator.push(context,
@@ -80,6 +95,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            SignInButton(
+              Buttons.Google,
+              onPressed: () {},
+            ),
+            SignInButton(
+              Buttons.Facebook,
+              onPressed: () {},
             ),
           ],
         ),
