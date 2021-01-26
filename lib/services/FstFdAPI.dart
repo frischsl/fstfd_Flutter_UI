@@ -255,6 +255,20 @@ class FstFdAPI {
     }
   }
 
+  static Future<bool> LikePost(int postID, bool like) async {
+    var response = await http.post(
+      "${root}api/posts/like",
+      body: jsonEncode(<String, dynamic>{'postID': postID, 'like': like}),
+    );
+    print(response);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to like post');
+    }
+  }
+
   static Future<ComplexSearchWithFullParams> fetchComplexRecipeList(
       String baseUrl) async {
     // String baseUrl = (widget.queryString == null) ? "" : widget.queryString;
@@ -321,9 +335,11 @@ class Posts {
   int userID;
   String imageUrl;
   String type;
+  int likes;
+  DateTime postedAt;
 
   Posts(this.postID, this.mealPlanURL, this.title, this.comment, this.userID,
-      this.imageUrl, this.type);
+      this.imageUrl, this.type, this.likes, this.postedAt);
 
   Map<String, dynamic> toMap() {
     return {
@@ -334,6 +350,8 @@ class Posts {
       'userID': userID,
       'imageUrl': imageUrl,
       'type': type,
+      'likes': likes,
+      'postedAt': postedAt,
     };
   }
 
@@ -345,6 +363,8 @@ class Posts {
         json['userID'],
         json['imageUrl'],
         json['type'],
+        json['likes'],
+        json['postedAt'],
       );
 
   Posts.fromJson(Map<String, dynamic> json) {
@@ -355,6 +375,8 @@ class Posts {
     userID = json['userID'];
     imageUrl = json['imageUrl'];
     type = json['type'];
+    likes = json['likes'];
+    postedAt = DateTime.parse(json['postedAt']);
   }
 }
 

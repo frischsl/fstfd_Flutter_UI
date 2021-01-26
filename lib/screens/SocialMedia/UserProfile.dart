@@ -36,7 +36,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     isCurrentUser = (kUser.userID == widget.userID);
     isAdded = false;
 
-    FstFdAPI.GetUserInfoByUserID(widget.userID).then((user) => userInfo = user);
+    FstFdAPI.GetUserInfoByUserID(widget.userID).then((user) => setState(() {
+          userInfo = user;
+        }));
     print("USERINFO: $userInfo");
     super.initState();
   }
@@ -150,7 +152,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      kUser.firstName + " " + kUser.lastName,
+                      userInfo.firstName + " " + userInfo.lastName,
                       style: cardTextStyleTitle,
                     ),
                     // Text("Male", style: cardTextStyleSub)
@@ -205,9 +207,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   }
                                 },
                                 child: SocialMediaCard(
-                                    title: post.title,
-                                    img: post.imageUrl,
-                                    comments: post.comment),
+                                  title: post.title,
+                                  img: post.imageUrl,
+                                  comments: post.comment,
+                                  post: post,
+                                ),
                               );
                             });
                       } else {

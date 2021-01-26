@@ -39,35 +39,44 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
       child: Scaffold(
         backgroundColor: Color(0xfff3f3f4),
         appBar: AppBar(
-          bottom: TabBar(
-            indicatorColor: Colors.green,
-            onTap: (index) {
-              if (tabIndex != index) {
-                if (index == 0) {
-                  setState(() {});
-                } else {}
-              }
-              tabIndex = index;
-            },
-            tabs: [
-              Tab(
+          title: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 2.0),
+                borderRadius: BorderRadius.circular(20.0)),
+            child: TabBar(
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.orangeAccent,
+              onTap: (index) {
+                if (tabIndex != index) {
+                  if (index == 0) {
+                    setState(() {});
+                  } else {}
+                }
+                tabIndex = index;
+              },
+              tabs: [
+                Tab(
                   icon: Icon(
-                Icons.blur_circular,
-                color: Colors.green,
-              )),
-              Tab(
-                  icon: Icon(
-                Icons.person_outline,
-                color: Colors.green,
-              ))
-            ],
+                    Icons.blur_circular,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
+                ),
+                Tab(
+                    icon: Icon(
+                  Icons.person_outline,
+                  color: Colors.green,
+                  size: 30.0,
+                ))
+              ],
+            ),
           ),
           backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            "What's the world eating?",
-            style: cardTextStyleTitle,
-          ),
+          // centerTitle: true,
+          // title: Text(
+          //   "What's the world eating?",
+          //   style: cardTextStyleTitle,
+          // ),
         ),
         body: TabBarView(children: [
           SingleChildScrollView(
@@ -121,6 +130,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
                                   img: posts[index].imageUrl,
                                   comments: posts[index].comment,
                                   userID: posts[index].userID,
+                                  post: posts[index],
                                 ));
                           });
                     } else if (snapshot.hasError) {
@@ -184,6 +194,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
                                   img: post.imageUrl,
                                   comments: post.comment,
                                   userID: post.userID,
+                                  post: post,
                                 ),
                               );
                             });
