@@ -93,13 +93,13 @@ class _NameMealPlanScreenState extends State<NameMealPlanScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Next",
-              style: TextStyle(fontSize: 13.0),
-            ),
+            // Text(
+            //   "Next",
+            //   style: TextStyle(fontSize: 13.0),
+            // ),
             Icon(
               Icons.arrow_forward_ios,
-              size: 15.0,
+              size: 25.0,
             ),
           ],
         ),

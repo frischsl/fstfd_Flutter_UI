@@ -2,6 +2,7 @@ import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dar
 import 'package:fast_food/Models/User.dart';
 import 'package:fast_food/components/SocialMedia/SocialMediaCard.dart';
 import 'package:fast_food/constants.dart';
+import 'package:fast_food/screens/Login/LoginScreen.dart';
 import 'package:fast_food/screens/Login/WelcomeScreen.dart';
 import 'package:fast_food/screens/Main/RecipeDetails.dart';
 import 'package:fast_food/screens/Main/WeeklyOverview.dart';
@@ -77,7 +78,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => WelcomeScreen()));
+                                      builder: (context) => LoginScreen()));
                             },
                             child: _logoutLabel())
                         : (isAdded)
@@ -145,14 +146,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 child: _addFriendBtn()),
                   ],
                 ),
-                _profileCircle(
-                    firstName: userInfo.firstName, lastName: userInfo.lastName),
+                userInfo != null
+                    ? (userInfo.firstName == "Zac"
+                        ? _profileCircle_Image(image: ZacImage)
+                        : (userInfo.firstName == "Sam"
+                            ? _profileCircle_Image(image: SamImage)
+                            : _profileCircle(
+                                firstName: userInfo.firstName,
+                                lastName: userInfo.lastName)))
+                    : _profileCircle(firstName: "Sam", lastName: "Frisch"),
+
+                // _profileCircle(
+                //     firstName: userInfo.firstName, lastName: userInfo.lastName),
                 SizedBox(height: 30.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      userInfo.firstName + " " + userInfo.lastName,
+                      userInfo != null
+                          ? userInfo.firstName + " " + userInfo.lastName
+                          : "",
                       style: cardTextStyleTitle,
                     ),
                     // Text("Male", style: cardTextStyleSub)
@@ -211,6 +224,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   img: post.imageUrl,
                                   comments: post.comment,
                                   post: post,
+                                  userID: post.userID,
                                 ),
                               );
                             });
@@ -261,6 +275,25 @@ Widget _profileCircle({String firstName, String lastName}) {
             Text(lastName[0], style: TextStyle(color: Colors.white))
           ],
         ),
+      ),
+    ),
+  );
+}
+
+Widget _profileCircle_Image({String image}) {
+  return ClipRRect(
+    // borderRadius: BorderRadius.circular(100.0),
+    child: Container(
+      width: 100.0,
+      height: 100.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+            alignment: Alignment.bottomRight,
+            image: NetworkImage(
+              image ?? OtherImage,
+            ),
+            fit: BoxFit.cover),
       ),
     ),
   );

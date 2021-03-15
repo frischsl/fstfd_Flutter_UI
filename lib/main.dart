@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fast_food/screens/Login/LoginScreen.dart';
 import 'package:fast_food/screens/Login/WelcomeScreen.dart';
 import 'package:fast_food/screens/TabsScreen.dart';
 import 'package:fast_food/screens/Main/WeeklyOverview.dart';
@@ -40,18 +41,18 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primaryColor: Colors.green,
           unselectedWidgetColor: Colors.green),
-      initialRoute: '/WelcomeScreen',
+      initialRoute: '/LoginScreen',
       routes: {
         '/recipe_detail': (context) => recipe_detail(),
         '/weekly_meal_plan_overview': (context) => weekly_meal_plan_overview(),
-        '/testing_grounds': (context) => testing_grounds(),
+        // '/testing_grounds': (context) => testing_grounds(),
         '/WeeklyOverview': (context) => WeeklyOverview(),
         '/NutrientSelectionScreen': (context) => NutrientSelectionScreen(),
         '/MainPageScreen': (context) => MainPageScreen(),
         '/RecipeDetails': (context) => RecipeDetails(),
         '/TabsScreen': (context) => TabsScreen(),
         '/GroceryList': (context) => GroceryList(),
-        '/WelcomeScreen': (context) => WelcomeScreen(),
+        '/LoginScreen': (context) => LoginScreen(),
       },
     );
   }

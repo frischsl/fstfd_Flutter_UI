@@ -37,7 +37,7 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Color(0xfff3f3f4),
+        backgroundColor: Colors.white, //Color(0xfff3f3f4),
         appBar: AppBar(
           title: Container(
             decoration: BoxDecoration(
@@ -203,10 +203,15 @@ class _SocialMediaScreenState extends State<SocialMediaScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(height: 200.0),
-                            Text(
-                              "Sorry! Looks like none of your friends have posted yet!",
-                              style: cardTextStyleSub,
+                            Center(
+                              child: Text(
+                                "Whoops!",
+                                style: cardTextStyleTitle,
+                              ),
                             ),
+                            Text(
+                                "Looks like none of your friends have posted yet!",
+                                style: cardTextStyleSub)
                           ],
                         );
                       }

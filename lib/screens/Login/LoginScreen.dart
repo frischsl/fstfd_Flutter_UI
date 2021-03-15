@@ -22,6 +22,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    emailController.text = "samfrisch@email.com";
+    passwordController.text = "password";
+  }
+
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -37,25 +44,25 @@ class _LoginScreenState extends State<LoginScreen> {
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 20.0,
-                        ),
-                        Text("Back",
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w500))
-                      ],
-                    ),
-                  ),
-                ),
+                // child: Align(
+                //   alignment: Alignment.topLeft,
+                //   child: InkWell(
+                //     onTap: () {
+                //       Navigator.popUntil(context, (route) => route.isFirst);
+                //     },
+                //     child: Row(
+                //       children: [
+                //         Icon(
+                //           Icons.arrow_back_ios,
+                //           size: 20.0,
+                //         ),
+                //         Text("Back",
+                //             style: TextStyle(
+                //                 fontSize: 13, fontWeight: FontWeight.w500))
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ),
             ),
             Padding(

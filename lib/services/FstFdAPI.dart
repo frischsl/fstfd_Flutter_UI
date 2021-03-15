@@ -112,7 +112,7 @@ class FstFdAPI {
   }
 
   static Future<bool> AddPost(String mealPlanURL, String title, String comment,
-      int userID, String imgUrl) async {
+      int userID, String imgUrl, String type) async {
     var response = await http.post(
       '${root}api/posts',
       headers: <String, String>{
@@ -124,6 +124,7 @@ class FstFdAPI {
         'comment': comment,
         'userID': userID,
         'imageUrl': imgUrl,
+        'type': type,
       }),
     );
 

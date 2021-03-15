@@ -119,10 +119,14 @@ class _RecipeDetailsState extends State<RecipeDetails>
                           },
                           color: Colors.green[400],
                           elevation: 28.0,
-                          child: Icon(
-                            Icons.share,
-                            color: Colors.white,
-                            size: 20.0,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.share,
+                                color: Colors.white,
+                                size: 20.0,
+                              ),
+                            ],
                           ),
                         )),
                   ),

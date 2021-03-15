@@ -3,6 +3,7 @@ import 'package:fast_food/screens/SocialMedia/SocialMedia.dart';
 import 'package:fast_food/screens/SocialMedia/UserProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'GroceryList/GroceryListScreen.dart';
 
@@ -91,7 +92,7 @@ class _TabsScreenState extends State<TabsScreen> {
                   title: Text('Grocery'),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.whatshot),
+                  icon: Icon(FontAwesomeIcons.thumbsUp), //Icon(Icons.whatshot),
                   title: Text('Social Media'),
                 ),
                 BottomNavigationBarItem(

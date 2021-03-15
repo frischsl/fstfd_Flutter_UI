@@ -28,7 +28,7 @@ class _WeekdayRecipesState extends State<WeekdayRecipes> {
         ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height * 0.27,
-            maxHeight: MediaQuery.of(context).size.height * 0.42,
+            maxHeight: MediaQuery.of(context).size.height * 0.35,
             minWidth: double.infinity,
           ),
           child: ListView.builder(

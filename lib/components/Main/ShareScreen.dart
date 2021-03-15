@@ -70,14 +70,17 @@ class _ShareScreenState extends State<ShareScreen> {
               child: RaisedButton(
                 onPressed: () async {
                   if (titleController.text.length > 0 &&
-                      commentController.text.length > 0) {
+                      commentController.text.length > 0 &&
+                      !commentController.text
+                          .contains("Tell us how you feel")) {
                     // FstFdAPI.AddMealPlan(queryUrl, widget.title, kUser.userID);
                     bool added = await FstFdAPI.AddPost(
                         widget.mealPlanURL,
                         titleController.text,
                         commentController.text,
                         kUser.userID,
-                        widget.img);
+                        widget.img,
+                        widget.type);
 
                     if (added) {
                       Navigator.pop(context);
@@ -102,7 +105,7 @@ class _ShareScreenState extends State<ShareScreen> {
                     }
                   } else {
                     Fluttertoast.showToast(
-                        msg: "Please write a title and comments",
+                        msg: "Please write a title and some comments",
                         toastLength: Toast.LENGTH_LONG,
                         gravity: ToastGravity.TOP,
                         timeInSecForIosWeb: 2,
@@ -159,7 +162,11 @@ Widget _socialMediaCard(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.verified_user),
+              Icon(
+                Icons.account_circle,
+                size: 40.0,
+                color: Colors.green,
+              ),
               SizedBox(width: 10.0),
               Flexible(
                   child: TextFormField(

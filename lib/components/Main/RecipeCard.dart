@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fast_food/constants.dart';
 // import 'package:fast_food/Models/ComplexSearch.dart';
 import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class RecipeCard extends StatefulWidget {
   final Results recipe;
@@ -46,14 +47,15 @@ class _RecipeCardState extends State<RecipeCard> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   widget.recipe.title,
                   style: cardTextStyleTitle,
+                  maxLines: 3,
                 ),
-                Text(
-                  widget.recipe.id.toString(),
-                  style: cardTextStyleSub,
-                ),
+                // Text(
+                //   widget.recipe.title,
+                //   style: cardTextStyleTitle,
+                // ),
               ],
             ),
           ),

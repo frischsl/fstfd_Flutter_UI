@@ -1,11 +1,12 @@
-import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/WeeklyOverview.dart';
+import 'package:fast_food/screens/Main/WeeklyOverview.dart';
 import 'package:fast_food/screens/testingScreen.dart';
 import 'package:fast_food/services/FstFdAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../constants.dart';
-import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/groupedCheckboxes_edited.dart';
+import 'package:fast_food/components/Main/groupedCheckboxes_edited.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var NutrientParams = {};
 const heightBetween = 18.0;
@@ -59,7 +60,7 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
             ),
           ),
           bottom: TabBar(
-            indicatorColor: Colors.green,
+            indicatorColor: Colors.orange,
             onTap: (index) {
               if (tabIndex != index) {
                 if (index == 0) {
@@ -71,13 +72,15 @@ class _NutrientSelectionScreenState extends State<NutrientSelectionScreen> {
             tabs: [
               Tab(
                   icon: Icon(
-                Icons.add_circle_outline,
+                Icons.check_circle,
                 color: Colors.green,
+                size: 28.0,
               )),
               Tab(
                   icon: Icon(
-                Icons.error,
+                FontAwesomeIcons.solidTimesCircle,
                 color: Colors.green,
+                size: 25.0,
               ))
             ],
           ),
@@ -202,7 +205,8 @@ class _NutrientBuilderState extends State<NutrientBuilder> {
             width: MediaQuery.of(context).size.width * 0.22,
             child: Text(
               widget.nutrientName,
-              style: cardTextStyleSub,
+              style:
+                  cardTextStyleSub, //(fontWeight: FontWeight.bold, fontSize: 16.0),
               textAlign: TextAlign.start,
             ),
           ),

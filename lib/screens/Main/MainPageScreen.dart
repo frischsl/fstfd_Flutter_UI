@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
 import 'WeeklyOverview.dart';
-import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/CreateNewMealPlanBtn.dart';
 import 'package:fast_food/components/Main/PreviousMealPlanBtn.dart';
+import 'package:fast_food/components/Main/CreateNewMealPlanBtn.dart';
 import 'package:fast_food/services/FstFdAPI.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
@@ -50,7 +50,9 @@ class _MainPageScreenState extends State<MainPageScreen> {
         }
       });
 
-      return result.join(", ");
+      Set setResult = new Set.from(result);
+
+      return setResult.join(", ");
     } else {
       return "Fat, Iodine, Gluten, Dairy";
     }

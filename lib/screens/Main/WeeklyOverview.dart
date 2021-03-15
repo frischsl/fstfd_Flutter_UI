@@ -1,20 +1,13 @@
 import 'dart:collection';
 
-import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/screens/Main/MainPageScreen.dart';
 import 'package:fast_food/components/Main/ShareScreen.dart';
-import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
-import 'package:fast_food/screens/Main/MainPageScreen.dart';
-import 'package:fast_food/screens/TabsScreen.dart';
-import 'package:fast_food/screens/recipe_detail.dart';
 import 'package:fast_food/services/FstFdAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:fast_food/constants.dart';
-// import 'package:fast_food/Models/ComplexSearch.dart';
 import 'package:fast_food/Models/ComplexSearchWithRecipeInformationNutrition.dart';
-import 'file:///C:/Users/samfr/AndroidStudioProjects/fstfd/lib/components/Main/RecipeCard.dart';
 import 'package:fast_food/components/Main/WeekdayRecipes.dart';
 import 'package:fast_food/screens/GroceryList/GroceryListScreen.dart';
 
@@ -60,30 +53,6 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
     // print(widget.nutritionalParams);
   }
 
-  // Future<ComplexSearchWithFullParams> fetchComplexRecipeList() async {
-  //   String baseUrl = (widget.queryString == null) ? "" : widget.queryString;
-  //
-  //   // if (baseUrl == "") {
-  //   //   if (widget.nutritionalParams == {}) {
-  //   //     baseUrl =
-  //   //         "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=21";
-  //   //   } else {
-  //   //     baseUrl =
-  //   //         "https://api.spoonacular.com/recipes/complexSearch?apiKey=${s_apikey}&${queryParams}&addRecipeInformation=true&addRecipeNutrition=true&instructionsRequired=true&number=21";
-  //   //   }
-  //   // }
-  //
-  //   print("${baseUrl}");
-  //
-  //   final response = await http.get("${baseUrl}");
-  //   // print(response.body);
-  //   if (response.statusCode == 200) {
-  //     return ComplexSearchWithFullParams.fromJson(jsonDecode((response.body)));
-  //   } else {
-  //     throw Exception('Failed to load recipe');
-  //   }
-  // }
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -121,51 +90,65 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          "Eat pasta, feel good",
+          widget.mealPlanTitle,
           style: cardTextStyleTitle,
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: FutureBuilder<ComplexSearchWithFullParams>(
-            future: futureRecipe,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                currentRecipes = snapshot.data;
-                image = currentRecipes.results[0].image;
-                return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: 7,
-                  itemBuilder: (context, index) {
-                    return WeekdayRecipes(
-                      weekday: WeekDays[index],
-                      indexAdd: index * 3,
-                      recipes: snapshot.data.results,
-                      mealPlanUrl: widget.queryString,
-                    );
+        child: SingleChildScrollView(
+          physics: ScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 30.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: FutureBuilder<ComplexSearchWithFullParams>(
+                  future: futureRecipe,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      currentRecipes = snapshot.data;
+                      image = currentRecipes.results[0].image;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        // scrollDirection: Axis.vertical,
+                        itemCount: 7,
+                        itemBuilder: (context, index) {
+                          return WeekdayRecipes(
+                            weekday: WeekDays[index],
+                            indexAdd: index * 3,
+                            recipes: snapshot.data.results,
+                            mealPlanUrl: widget.queryString,
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    // By default, show a loading spinner.
+                    return Center(child: CircularProgressIndicator());
                   },
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default, show a loading spinner.
-              return Center(child: CircularProgressIndicator());
-            },
+                ),
+              ),
+            ],
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.add,
-              size: 20.0,
+            SizedBox(
+              width: 13.0,
             ),
-            Icon(Icons.shopping_cart),
+            // Icon(
+            //   Icons.add,
+            //   size: 20.0,
+            // ),
+            Icon(
+              FontAwesomeIcons.cartPlus,
+              size: 25.0,
+            ),
           ],
         ),
         elevation: 20.0,

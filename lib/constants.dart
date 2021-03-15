@@ -13,6 +13,12 @@ SplayTreeMap<String, Ingredients> ingredients =
 
 User kUser;
 
+String SamImage =
+    "https://cn.i.cdn.ti-platform.com/cnapac/content/2017/showpage/ben-10/sa/showicon.png";
+String ZacImage =
+    "https://m.media-amazon.com/images/M/MV5BMTk1NWExN2QtOTYxYi00Yzg4LTkzOGYtYmI2ZjQ5YTRjMjczXkEyXkFqcGdeQXRyYW5zY29kZS13b3JrZmxvdw@@._V1_.jpg";
+String OtherImage = "https://en.pimg.jp/065/911/674/1/65911674.jpg";
+
 // AppBar
 final appBar = AppBar(
   leading: Icon(

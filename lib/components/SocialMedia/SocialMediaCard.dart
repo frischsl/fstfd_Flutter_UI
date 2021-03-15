@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../constants.dart';
+import 'package:fast_food/constants.dart';
 import 'dart:math';
 
 class SocialMediaCard extends StatefulWidget {
@@ -76,7 +77,11 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                                     )));
                       }
                     },
-                    child: _profileCircle()),
+                    child: userInfo == null
+                        ? _profileCircle(image: OtherImage)
+                        : (userInfo.firstName == "Zac"
+                            ? _profileCircle(image: ZacImage)
+                            : _profileCircle(image: SamImage))),
                 SizedBox(width: 10.0),
                 Expanded(
                   child: Column(
@@ -90,7 +95,7 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 17.0,
-                                color: Colors.grey,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -100,7 +105,7 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 17.0,
-                              color: Colors.grey,
+                              color: Colors.black,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -112,11 +117,11 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                             postTime != null
                                 ? "${postTime[0]}${postTime[1]}"
                                 : "3s",
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.black),
                           ),
                           Icon(
                             Icons.blur_circular,
-                            color: Colors.grey,
+                            color: Colors.black,
                             size: 20.0,
                           ),
                         ],
@@ -142,9 +147,14 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                   width: 10.0,
                 ),
                 Flexible(
-                  child: Text(
-                    widget.comments ?? "Comments",
-                    style: cardTextStyleSub,
+                  child: Column(
+                    children: [
+                      Text(widget.title, style: cardTextStyleTitle),
+                      Text(
+                        widget.comments ?? "Comments",
+                        style: cardTextStyleSub,
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -209,7 +219,7 @@ Widget _profileCircle({String image}) {
         image: DecorationImage(
             alignment: Alignment.bottomRight,
             image: NetworkImage(
-              "https://en.pimg.jp/065/911/674/1/65911674.jpg",
+              image ?? OtherImage,
             ),
             fit: BoxFit.cover),
       ),
