@@ -55,47 +55,62 @@ class _ShareScreenState extends State<ShareScreen> {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            _socialMediaCard(
-              height: MediaQuery.of(context).size.height * 0.29,
-              img: widget.img,
-              title: widget.title,
-              type: widget.type,
-              commentController: commentController,
-              titleController: titleController,
-            ),
-            Container(
-              width: 150.0,
-              child: RaisedButton(
-                onPressed: () async {
-                  if (titleController.text.length > 0 &&
-                      commentController.text.length > 0 &&
-                      !commentController.text
-                          .contains("Tell us how you feel")) {
-                    // FstFdAPI.AddMealPlan(queryUrl, widget.title, kUser.userID);
-                    bool added = await FstFdAPI.AddPost(
-                        widget.mealPlanURL,
-                        titleController.text,
-                        commentController.text,
-                        kUser.userID,
-                        widget.img,
-                        widget.type);
+        child: Container(
+          width: double.infinity,
+          height: 300.0,
+          child: Column(
+            children: [
+              Flexible(
+                child: _socialMediaCard(
+                  height: MediaQuery.of(context).size.height * 0.29,
+                  img: widget.img,
+                  title: widget.title,
+                  type: widget.type,
+                  commentController: commentController,
+                  titleController: titleController,
+                ),
+              ),
+              Container(
+                width: 150.0,
+                child: RaisedButton(
+                  onPressed: () async {
+                    if (titleController.text.length > 0 &&
+                        commentController.text.length > 0 &&
+                        !commentController.text
+                            .contains("Tell us how you feel")) {
+                      // FstFdAPI.AddMealPlan(queryUrl, widget.title, kUser.userID);
+                      bool added = await FstFdAPI.AddPost(
+                          widget.mealPlanURL,
+                          titleController.text,
+                          commentController.text,
+                          kUser.userID,
+                          widget.img,
+                          widget.type);
 
-                    if (added) {
-                      Navigator.pop(context);
+                      if (added) {
+                        Navigator.pop(context);
 
-                      Fluttertoast.showToast(
-                          msg: "Successfully posted ${widget.type}",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.TOP,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                        Fluttertoast.showToast(
+                            msg: "Successfully posted ${widget.type}",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "Something went wrong, please try again",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
                     } else {
                       Fluttertoast.showToast(
-                          msg: "Something went wrong, please try again",
+                          msg: "Please write a title and some comments",
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.TOP,
                           timeInSecForIosWeb: 2,
@@ -103,38 +118,29 @@ class _ShareScreenState extends State<ShareScreen> {
                           textColor: Colors.white,
                           fontSize: 16.0);
                     }
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "Please write a title and some comments",
-                        toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.TOP,
-                        timeInSecForIosWeb: 2,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }
-                },
-                color: Colors.green,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.share,
-                      color: Colors.white,
-                    ),
-                    SizedBox(width: 10.0),
-                    Text(
-                      "Share",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.white),
-                    )
-                  ],
+                  },
+                  color: Colors.green,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.share,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 10.0),
+                      Text(
+                        "Share",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.0,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -182,7 +188,7 @@ Widget _socialMediaCard(
             children: [
               Container(
                 width: 130.0,
-                height: 100.0,
+                height: 80.0,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
                   child: Image.network(img),

@@ -32,7 +32,11 @@ class _MainPageScreenState extends State<MainPageScreen> {
       int locOfConst = url.indexOf("&addRecipeInformation");
       int locOfKey = url.indexOf("${s_apikey}&");
       url = url.substring(0, locOfConst);
-      url = url.substring(locOfKey + s_apikey.length + 1, url.length);
+
+      if (url.length == 89)
+        url = url.substring(locOfKey + s_apikey.length, url.length);
+      else
+        url = url.substring(locOfKey + s_apikey.length + 1, url.length);
 
       List<String> params = url.split("&");
       List<String> result = List<String>();
@@ -51,6 +55,7 @@ class _MainPageScreenState extends State<MainPageScreen> {
       });
 
       Set setResult = new Set.from(result);
+      if (setResult.toString() == "{}") return "Plain";
 
       return setResult.join(", ");
     } else {

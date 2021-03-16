@@ -91,7 +91,7 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                         children: [
                           Flexible(
                             child: Text(
-                              userInfo == null ? "User" : userInfo.firstName,
+                              userInfo == null ? "" : userInfo.firstName,
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 17.0,
@@ -140,7 +140,7 @@ class _SocialMediaCardState extends State<SocialMediaCard> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(45.0),
                     child: Image.network(widget.img ??
-                        "https://spoonacular.com/recipeImages/716429-556x370.jpg"),
+                        "https://cdn.quotesgram.com/img/70/76/621875337-PJ6gf.png"),
                   ),
                 ),
                 SizedBox(
